@@ -1,0 +1,164 @@
+<!-- templates/result.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <link ref="stylesheet" src="cdn.tailwind.com">
+    <title>Physics Graph Result</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { background-color: #f8f9fa; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; }
+        .graph-container { text-align: center; margin: 20px 0; border: 1px solid #ddd; padding: 10px; background: white; }
+        img { max-width: 100%; height: auto; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; padding: 12px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; }
+        .btn-download { background-color: #007bff; color: white; }
+        .btn-download:hover { background-color: #0069d9; }
+        .btn-back { background-color: #6c757d; color: white; }
+        .btn-back:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Physics Graph Result</h1>
+        
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ plot_data }}" alt="Physics Graph">
+        </div>
+        
+        <form action="{{ url_for('download', format_type='png') }}" method="POST">
+            <input type="hidden" name="x_values" value="{{ x_values }}">
+            <input type="hidden" name="y_values" value="{{ y_values }}">
+            <div class="btn-group">
+                <a href="/" class="btn btn-back">Back to Input</a>
+                <button type="submit" class="btn btn-download">Download PNG</button>
+            </div>
+        </form>
+        
+        <form action="{{ url_for('download', format_type='pdf') }}" method="POST">
+            <input type="hidden" name="x_values" value="{{ x_values }}">
+            <input type="hidden" name="y_values" value="{{ y_values }}">
+            <div class="btn-group">
+                <button type="submit" class="btn btn-download">Download PDF</button>
+            </div>
+        </form>
+    </div>
+
+<footer class="marquee-footer">
+  <div class="marquee">
+    <span>
+      developed by kings World
+      <a href="https://x.com/kingsleyesisi" target="_blank" class="icon x" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M22.162 1.845h-4.188l-5.03 7.03L7.63 1.845H1.837l7.486 10.412L1.5 22.155h4.188l5.03-7.03 5.314 7.03h5.793L14.32 11.742z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/kingsleyesisi" target="_blank" class="icon linkedin" title="LinkedIn">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.327-.026-3.037-1.849-3.037-1.852 0-2.134 1.445-2.134 2.939v5.667H9.356V9h3.413v1.561h.049c.476-.898 1.637-1.848 3.37-1.848 3.6 0 4.266 2.368 4.266 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.778 13.019H3.56V9h3.555v11.452zM22.225 0H1.771C.792 0 0 .771 0 1.729v20.542C0 23.229.792 24 1.771 24h20.451C23.2 24 24 23.229 24 22.271V1.729C24 .771 23.2 0 22.225 0z"/></svg>
+      </a>
+      <a href="https://github.com/kingsleyesisi" target="_blank" class="icon github" title="GitHub">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.016-2.04-3.338.724-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.084-.729.084-.729 1.205.084 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.775.418-1.305.76-1.605-2.665-.3-5.466-1.334-5.466-5.93 0-1.31.47-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.51 11.51 0 0 1 3.003-.404c1.02.005 2.047.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.873.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.803 5.625-5.475 5.921.43.372.823 1.103.823 2.222 0 1.605-.014 2.896-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+    </span>
+  </div>
+</footer>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@500;800&display=swap');
+
+.marquee-footer {
+  background: linear-gradient(90deg, #1a1a2e, #232526 80%, #0f2027 100%);
+  color: #fff;
+  font-family: 'Orbitron', 'Montserrat', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.1rem;
+  padding: 18px 0 14px 0;
+  overflow: hidden;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 50;
+  box-shadow: 0 -4px 24px 0 #1a1a2eb0;
+  border-top: 2px solid #00ffe7;
+}
+
+.marquee {
+  width: 100%;
+  overflow: hidden;
+  height: 2em;
+  position: relative;
+}
+
+.marquee span {
+  display: inline-block;
+  padding-left: 100vw;
+  white-space: nowrap;
+  font-size: 1.2em;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-shadow:
+    0 0 12px #00ffe7,
+    0 0 24px #00ffe7,
+    0 0 2px #fff;
+  background: linear-gradient(90deg, #00ffe7 10%, #ff6a00 60%, #e100ff 90%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation:
+    marquee 13s linear infinite,
+    gradientMove 7s ease-in-out infinite alternate;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-110vw); }
+}
+
+@keyframes gradientMove {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Icon Styling */
+.icon {
+  vertical-align: middle;
+  display: inline-block;
+  margin: 0 0.6em;
+  transition: transform 0.2s, filter 0.2s;
+  filter: drop-shadow(0 0 8px #00ffe7b4);
+  position: relative;
+  top: 3px;
+  opacity: 0.92;
+}
+
+.icon:hover {
+  transform: scale(1.25) rotate(-7deg);
+  filter: drop-shadow(0 0 16px #ff6a00cc) brightness(1.5) saturate(1.3);
+}
+
+.icon.x svg {
+  color: #00acee;
+  filter: drop-shadow(0 0 10px #00acee90);
+}
+.icon.linkedin svg {
+  color: #0e76a8;
+  filter: drop-shadow(0 0 10px #0e76a890);
+}
+.icon.github svg {
+  color: #fff;
+  filter: drop-shadow(0 0 12px #fff8);
+}
+
+@media (max-width: 600px) {
+  .marquee-footer {
+    font-size: 0.9rem;
+    padding: 8px 0 6px 0;
+  }
+  .marquee span {
+    font-size: 1em;
+    letter-spacing: 1px;
+  }
+}
+</style>
+
+
+
+</body>
+</html>
