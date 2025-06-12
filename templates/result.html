@@ -252,10 +252,14 @@
     <div class="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl shadow-lg p-6 mb-8 border border-purple-200">
       <h3 class="text-2xl font-bold text-purple-800 text-center mb-6">Slope Analysis Results</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Calculated Slope always shown -->
         <div class="bg-white rounded-lg p-4 text-center shadow-sm">
           <div class="text-2xl font-bold text-purple-600">{{ "%.4f"|format(slope_stats.slope) }}</div>
           <div class="text-sm text-gray-600">Calculated Slope</div>
         </div>
+
+        <!-- Δx and Δy only for linear -->
+        {% if slope_stats.curve_type == 'linear' %}
         <div class="bg-white rounded-lg p-4 text-center shadow-sm">
           <div class="text-2xl font-bold text-green-600">{{ "%.2f"|format(slope_stats.delta_x) }}</div>
           <div class="text-sm text-gray-600">Δx (Run)</div>
@@ -264,10 +268,23 @@
           <div class="text-2xl font-bold text-orange-600">{{ "%.2f"|format(slope_stats.delta_y) }}</div>
           <div class="text-sm text-gray-600">Δy (Rise)</div>
         </div>
+        {% endif %}
+
+        <!-- Correlation always shown if exists -->
+        {% if slope_stats.correlation is defined %}
         <div class="bg-white rounded-lg p-4 text-center shadow-sm">
           <div class="text-2xl font-bold text-blue-600">{{ "%.3f"|format(slope_stats.correlation) }}</div>
           <div class="text-sm text-gray-600">Correlation (r)</div>
         </div>
+        {% endif %}
+
+        <!-- Tangent point for curves -->
+        {% if slope_stats.curve_type != 'linear' %}
+        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+          <div class="text-2xl font-bold text-green-600">{{ "%.2f"|format(slope_stats.tangent_point) }}</div>
+          <div class="text-sm text-gray-600">Tangent Point (x)</div>
+        </div>
+        {% endif %}
       </div>
     </div>
 
@@ -281,7 +298,10 @@
             <span class="ml-3 text-4xl">📐</span>
           </h2>
           <p class="text-lg opacity-90">Master the fundamental skill of experimental physics!</p>
-        </div>
+          <p class="text-lg opacity-80"> <span class="text-red-900"> NOTE:</span> You can use your own method to find your slope if needed for proficiency </P>
+          <p class="text-lg opacity-90">Please use properly</p>
+
+          </div>
 
         <div class="grid md:grid-cols-2 gap-8">
           <!-- Formula Section -->
@@ -373,6 +393,7 @@
           <div class="grid md:grid-cols-2 gap-4 text-sm">
             <div>
               <h4 class="font-semibold text-yellow-300 mb-2">🎯 For Better Accuracy:</h4>
+              
               <ul class="space-y-1 opacity-90">
                 <li>• Use points far apart on your line</li>
                 <li>• Avoid using actual data points</li>
