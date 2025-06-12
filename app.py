@@ -493,11 +493,17 @@ def generate_slope_plot(x_values, y_values, output_format='png'):
     
     # Auto-scale axes with buffer
     x_range = x_max - x_min if x_max != x_min else 1
-    y_range = max(y_values) - min(y_values) if max(y_values) != min(y_values) else 1
-    
-    ax.set_xlim(x_min - 0.15*x_range, x_max + 0.15*x_range)
-    ax.set_ylim(min(y_values) - 0.15*y_range, max(y_values) + 0.15*y_range)
-    
+    y_min, y_max = min(y_values), max(y_values)
+    y_range = y_max - y_min if y_max != y_min else 1
+
+    # Apply 15% buffer to axes limits
+    x_pad = 0.15 * x_range
+    y_pad = 0.15 * y_range
+
+
+    # add 1 unit extra space on both ends for better visibility
+    ax.set_xlim((x_min - x_pad) - 1, (x_max + x_pad) +1)
+    ax.set_ylim((y_min - y_pad) - 1, (y_max + y_pad) + 1)
     # Add legend
     ax.legend(loc='best', fontsize=10)
     
