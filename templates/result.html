@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Physics Graph Result</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generate physics graphs with precision and style. Input your data and visualize it instantly.">
+    <meta name="keywords" content="physics, graph generator, data visualization, slope analysis, best-fit line">
+    <meta name="author" content="Kingsley Esisi">
+    <meta name="theme-color" content="#3498db">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <meta property="og:image" content="{{ url_for('static', filename='favicon.ico') }}">
+    <meta property="og:title" content="Physics Graph Generator">
+    <meta property="og:description" content="Generate physics graphs with precision and style. Input your data and visualize it instantly.">  <title>Physics Graph Result</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes marquee { 
@@ -136,36 +144,58 @@
   </div>
 
   <!-- Enhanced Header -->
-  <header class="bg-gradient-to-r from-indigo-900 via-purple-800 to-blue-900 text-white shadow-2xl relative overflow-hidden">
-    <!-- Animated background elements -->
-    <div class="absolute inset-0 opacity-20">
-      <div class="absolute top-4 left-4 w-16 h-16 bg-yellow-400 rounded-full animate-float"></div>
-      <div class="absolute top-8 right-8 w-12 h-12 bg-pink-400 rounded-full animate-float" style="animation-delay: 1s;"></div>
-      <div class="absolute bottom-4 left-1/4 w-8 h-8 bg-green-400 rounded-full animate-float" style="animation-delay: 2s;"></div>
-      <div class="absolute bottom-8 right-1/3 w-10 h-10 bg-blue-400 rounded-full animate-float" style="animation-delay: 0.5s;"></div>
-    </div>
-    
-    <div class="container mx-auto px-6 py-12 relative z-10">
-      <div class="text-center">
-        <div class="flex justify-center items-center mb-4">
-          <div class="text-6xl mr-4 animate-pulse-glow">📊</div>
-          <div>
-            <h1 class="text-5xl font-bold bg-gradient-to-r from-yellow-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent mb-2">
-              Physics Graph Analysis
-            </h1>
-            <div class="flex items-center justify-center space-x-2 text-lg">
-              <span class="text-yellow-300">⚡</span>
-              <span class="text-gray-200">Experimental Data Visualization</span>
-              <span class="text-cyan-300">🔬</span>
-            </div>
-          </div>
-        </div>
-        <p class="text-center text-blue-200 text-xl font-light max-w-2xl mx-auto">
-          Click any graph to view in fullscreen • Analyze your experimental data with precision
+  <header class="relative overflow-hidden bg-gradient-to-r from-indigo-800 to-blue-900 text-white shadow-lg py-8">
+  <!-- Subtle moving gradient overlay -->
+  <div class="absolute inset-0 bg-gradient-to-r from-indigo-700 to-blue-800 bg-[length:200%_200%] animate-gradient-shift opacity-30 pointer-events-none"></div>
+
+  <!-- Floating orbs -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-6 left-6 w-8 h-8 bg-indigo-600 rounded-full animate-slow-float"></div>
+    <div class="absolute bottom-6 right-10 w-6 h-6 bg-blue-600 rounded-full animate-slow-float delay-2000"></div>
+  </div>
+
+  <div class="container mx-auto px-6 relative z-10 text-center">
+    <div class="inline-flex items-center space-x-4 mb-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-pink-400">
+          Physics Graph Analysis
+        </h1>
+        <p class="mt-1 text-sm text-gray-200 flex items-center justify-center space-x-2">
+          <span>⚡</span>
+          <span>Experimental Data Visualization</span>
+          <span>🔬</span>
         </p>
       </div>
     </div>
-  </header>
+    <p class="mx-auto max-w-xl text-gray-300 text-base md:text-lg">
+      Click any graph to view fullscreen · Analyze your experimental data with precision
+    </p>
+  </div>
+</header>
+
+<style>
+  /* Gradient subtly shifts */
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50%      { background-position: 100% 50%; }
+  }
+  .animate-gradient-shift {
+    animation: gradientShift 12s ease-in-out infinite;
+  }
+
+  /* Slow floating orbs */
+  @keyframes slowFloat {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+  }
+  .animate-slow-float {
+    animation: slowFloat 8s ease-in-out infinite;
+  }
+  .delay-2000 {
+    animation-delay: 2s;
+  }
+</style>
+
 
   <!-- Main Content -->
   <main class="flex-1 container mx-auto px-6 py-12">
@@ -422,96 +452,87 @@
   </main>
 
   <!-- Footer -->
-  <footer class="relative bg-gradient-to-r from-indigo-900 via-purple-800 to-indigo-900 text-white overflow-hidden rounded-3xl p-12 flex flex-col space-y-8">
-  <!-- Main Content -->
-  <div class="flex flex-col md:flex-row items-center justify-between w-full space-y-6 md:space-y-0 md:space-x-6">
+  <footer class="relative bg-gradient-to-tr from-gray-800 to-gray-700 text-gray-100 rounded-xl p-8 flex flex-col space-y-6 overflow-hidden">
+  <!-- Content Row -->
+  <div class="flex flex-col md:flex-row items-center justify-between w-full space-y-4 md:space-y-0 md:space-x-4">
     <!-- Brand -->
-    <div class="flex items-center space-x-4 transform hover:scale-105 transition">
-      <div class="text-5xl animate-spin-slow">👑</div>
+    <div class="flex items-center space-x-3 hover:scale-105 transition-transform">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="w-12 h-12 rounded-full shadow-md animate-stone-roll">
       <div>
-        <h3 class="text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-pink-400">
-          KINGS WORLD
-        </h3>
-        <p class="text-lg opacity-75">Powered by Physics</p>
+        <h3 class="text-2xl font-bold">KINGS WORLD</h3>
+        <p class="text-sm opacity-75">Powered by Kingsley Esisi</p>
       </div>
     </div>
     <!-- Social -->
-    <div class="flex items-center space-x-6">
-      <a href="https://x.com/kingsleyesisi" target="_blank"
-         class="p-4 bg-white bg-opacity-10 backdrop-blur-lg rounded-full border border-white border-opacity-20 hover:bg-opacity-20 transition transform hover:-translate-y-1">
-        <span class="text-3xl animate-ping">🐦</span>
+    <div class="flex items-center space-x-4">
+      <a href="https://x.com/kingsleyesisi" target="_blank" class="p-3 bg-gray-600 bg-opacity-20 rounded-full hover:bg-opacity-40 transition">
+        <span class="text-2xl">🐦</span>
       </a>
-      <a href="https://www.linkedin.com/in/kingsleyesisi" target="_blank"
-         class="p-4 bg-white bg-opacity-10 backdrop-blur-lg rounded-full border border-white border-opacity-20 hover:bg-opacity-20 transition transform hover:-translate-y-1">
-        <span class="text-3xl animate-bounce">💼</span>
+      <a href="https://www.linkedin.com/in/kingsleyesisi" target="_blank" class="p-3 bg-gray-600 bg-opacity-20 rounded-full hover:bg-opacity-40 transition">
+        <span class="text-2xl">💼</span>
       </a>
-      <a href="https://github.com/kingsleyesisi" target="_blank"
-         class="p-4 bg-white bg-opacity-10 backdrop-blur-lg rounded-full border border-white border-opacity-20 hover:bg-opacity-20 transition transform hover:-translate-y-1">
-        <span class="text-3xl animate-pulse">⚡</span>
+      <a href="https://github.com/kingsleyesisi" target="_blank" class="p-3 bg-gray-600 bg-opacity-20 rounded-full hover:bg-opacity-40 transition">
+        <span class="text-2xl">⚡</span>
       </a>
     </div>
     <!-- Made with Love -->
-    <div class="flex items-center space-x-4 text-xl opacity-80">
+    <div class="flex items-center space-x-2 text-sm opacity-80">
       <span>Made with</span>
-      <span class="text-red-500 animate-heartbeat">❤️</span>
+      <span class="text-red-400 animate-stone-bounce">❤</span>
       <span>&</span>
-      <span class="text-blue-400 animate-swing">⚛️</span>
+      <span class="text-blue-300 animate-stone-bounce">⚛️</span>
     </div>
   </div>
 
-  <!-- Animated Background Particles -->
+  <!-- Rolling “Stones” Animation -->
   <div class="absolute inset-0 pointer-events-none">
-    <div class="particle bg-yellow-400"></div>
-    <div class="particle bg-pink-500"></div>
-    <div class="particle bg-blue-500"></div>
-    <div class="particle bg-indigo-500"></div>
+    <div class="stone bg-gray-500"></div>
+    <div class="stone bg-gray-400"></div>
+    <div class="stone bg-gray-600"></div>
   </div>
 </footer>
 
 <style>
-  /* Slow spin */
-  @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+  /* Stone tumble */
+  @keyframes stone-roll {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    25%  { transform: translate(5px, -5px) rotate(15deg); }
+    50%  { transform: translate(0, -10px) rotate(30deg); }
+    75%  { transform: translate(-5px, -5px) rotate(45deg); }
+    100% { transform: translate(0, 0) rotate(60deg); }
   }
-  .animate-spin-slow { animation: spin-slow 20s linear infinite; }
-
-  /* Heartbeat */
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50%      { transform: scale(1.3); }
+  .animate-stone-roll {
+    animation: stone-roll 8s ease-in-out infinite;
   }
-  .animate-heartbeat { animation: heartbeat 1.2s ease-in-out infinite; }
 
-  /* Swing for atom */
-  @keyframes swing {
-    0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(15deg); }
-    50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(-15deg); }
-    100% { transform: rotate(0deg); }
+  /* Heart & atom bob */
+  @keyframes stone-bounce {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-4px); }
   }
-  .animate-swing { animation: swing 3s ease-in-out infinite; }
+  .animate-stone-bounce {
+    animation: stone-bounce 2s ease-in-out infinite;
+  }
 
-  /* Floating background particles */
-  .particle {
+  /* Background stones */
+  .stone {
     position: absolute;
-    width: 2rem; height: 2rem;
+    width: 1rem; height: 1rem;
     border-radius: 50%;
-    opacity: 0.25;
-    animation: float 8s ease-in-out infinite;
+    opacity: 0.2;
+    animation: stone-float 6s ease-in-out infinite;
   }
-  .particle:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
-  .particle:nth-child(2) { bottom: 15%; right: 20%; animation-delay: 2s; }
-  .particle:nth-child(3) { top: 30%; right: 10%; animation-delay: 4s; }
-  .particle:nth-child(4) { bottom: 5%; left: 25%; animation-delay: 6s; }
+  .stone:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+  .stone:nth-child(2) { bottom: 15%; right: 25%; animation-delay: 2s; }
+  .stone:nth-child(3) { top: 40%; right: 10%; animation-delay: 4s; }
 
-  @keyframes float {
+  @keyframes stone-float {
     0%   { transform: translate(0, 0) scale(1); }
-    50%  { transform: translate(20px, -30px) scale(1.2); }
+    50%  { transform: translate(10px, -15px) scale(0.8); }
     100% { transform: translate(0, 0) scale(1); }
   }
 </style>
+
 
   <!-- JavaScript for Fullscreen Functionality -->
   <script>
