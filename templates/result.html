@@ -133,6 +133,64 @@
       font-weight: bold;
       font-size: 14px;
     }
+
+    /* Calculation panel styles */
+    .calculation-panel {
+      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .calculation-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="calc-grid" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23calc-grid)"/></svg>');
+      opacity: 0.2;
+    }
+
+    .calc-step {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      transition: transform 0.2s ease;
+    }
+
+    .calc-step:hover {
+      transform: translateY(-2px);
+    }
+
+    .calc-number {
+      background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+      color: white;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .value-highlight {
+      background: rgba(255, 255, 255, 0.25);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: inline-block;
+      margin: 0.25rem;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+    }
   </style>
 
   
@@ -298,6 +356,176 @@
           <div class="text-sm text-gray-600">Tangent Point (x)</div>
         </div>
         {% endif %}
+      </div>
+    </div>
+
+    <!-- NEW: Detailed Calculation Section -->
+    <div class="calculation-panel text-white p-8 mb-8 relative">
+      <div class="relative z-10">
+        <div class="text-center mb-8">
+          <h2 class="text-3xl font-bold mb-2 flex items-center justify-center">
+            <span class="mr-3 text-4xl">🧮</span>
+            Detailed Slope & Intercept Calculation
+            <span class="ml-3 text-4xl">📊</span>
+          </h2>
+          <p class="text-lg opacity-90">Step-by-step calculation with actual values used</p>
+        </div>
+
+        <!-- Points Used Section -->
+        <div class="calc-step">
+          <div class="flex items-center mb-4">
+            <div class="calc-number mr-4">1</div>
+            <h3 class="text-xl font-bold">Points Used for Calculation</h3>
+          </div>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="text-center">
+              <h4 class="text-lg font-semibold mb-3 text-yellow-300">📍 Point 1 (x₁, y₁)</h4>
+              <div class="flex justify-center space-x-2">
+                <div class="value-highlight">
+                  x₁ = {{ "%.3f"|format(slope_stats.x1 if slope_stats.x1 is defined else 0) }}
+                </div>
+                <div class="value-highlight">
+                  y₁ = {{ "%.3f"|format(slope_stats.y1 if slope_stats.y1 is defined else 0) }}
+                </div>
+              </div>
+            </div>
+            <div class="text-center">
+              <h4 class="text-lg font-semibold mb-3 text-cyan-300">📍 Point 2 (x₂, y₂)</h4>
+              <div class="flex justify-center space-x-2">
+                <div class="value-highlight">
+                  x₂ = {{ "%.3f"|format(slope_stats.x2 if slope_stats.x2 is defined else 0) }}
+                </div>
+                <div class="value-highlight">
+                  y₂ = {{ "%.3f"|format(slope_stats.y2 if slope_stats.y2 is defined else 0) }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 text-center text-sm opacity-80">
+            {% if slope_stats.curve_type == 'linear' %}
+            <p>💡 These points were selected from the best-fit line to maximize accuracy</p>
+            {% else %}
+            <p>💡 These points represent the tangent line at x = {{ "%.3f"|format(slope_stats.tangent_point) }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Slope Calculation -->
+        <div class="calc-step">
+          <div class="flex items-center mb-4">
+            <div class="calc-number mr-4">2</div>
+            <h3 class="text-xl font-bold">Slope Calculation</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Formula -->
+            <div class="text-center">
+              <div class="text-2xl font-mono font-bold mb-2">
+                slope = (y₂ - y₁) / (x₂ - x₁)
+              </div>
+            </div>
+            
+            <!-- Step by step -->
+            <div class="grid md:grid-cols-3 gap-4">
+              <div class="text-center">
+                <h4 class="font-semibold mb-2 text-yellow-300">Calculate Δy</h4>
+                <div class="value-highlight text-lg">
+                  Δy = {{ "%.3f"|format(slope_stats.y2 if slope_stats.y2 is defined else 0) }} - {{ "%.3f"|format(slope_stats.y1 if slope_stats.y1 is defined else 0) }}
+                </div>
+                <div class="value-highlight text-xl font-bold mt-2 bg-yellow-400 bg-opacity-30">
+                  Δy = {{ "%.3f"|format(slope_stats.delta_y if slope_stats.delta_y is defined else 0) }}
+                </div>
+              </div>
+              
+              <div class="text-center">
+                <h4 class="font-semibold mb-2 text-cyan-300">Calculate Δx</h4>
+                <div class="value-highlight text-lg">
+                  Δx = {{ "%.3f"|format(slope_stats.x2 if slope_stats.x2 is defined else 0) }} - {{ "%.3f"|format(slope_stats.x1 if slope_stats.x1 is defined else 0) }}
+                </div>
+                <div class="value-highlight text-xl font-bold mt-2 bg-cyan-400 bg-opacity-30">
+                  Δx = {{ "%.3f"|format(slope_stats.delta_x if slope_stats.delta_x is defined else 0) }}
+                </div>
+              </div>
+              
+              <div class="text-center">
+                <h4 class="font-semibold mb-2 text-green-300">Final Slope</h4>
+                <div class="value-highlight text-lg">
+                  slope = {{ "%.3f"|format(slope_stats.delta_y if slope_stats.delta_y is defined else 0) }} / {{ "%.3f"|format(slope_stats.delta_x if slope_stats.delta_x is defined else 0) }}
+                </div>
+                <div class="value-highlight text-xl font-bold mt-2 bg-green-400 bg-opacity-30">
+                  slope = {{ "%.4f"|format(slope_stats.slope) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Y-intercept Calculation -->
+        <div class="calc-step">
+          <div class="flex items-center mb-4">
+            <div class="calc-number mr-4">3</div>
+            <h3 class="text-xl font-bold">Y-Intercept Calculation</h3>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Formula -->
+            <div class="text-center">
+              <div class="text-2xl font-mono font-bold mb-2">
+                y = mx + b  →  b = y - mx
+              </div>
+              <p class="text-sm opacity-80">Using point (x₁, y₁) to find the y-intercept</p>
+            </div>
+            
+            <!-- Calculation -->
+            <div class="text-center space-y-3">
+              <div class="value-highlight text-lg">
+                b = {{ "%.3f"|format(slope_stats.y1 if slope_stats.y1 is defined else 0) }} - ({{ "%.4f"|format(slope_stats.slope) }}) × {{ "%.3f"|format(slope_stats.x1 if slope_stats.x1 is defined else 0) }}
+              </div>
+              <div class="value-highlight text-lg">
+                b = {{ "%.3f"|format(slope_stats.y1 if slope_stats.y1 is defined else 0) }} - {{ "%.3f"|format(slope_stats.slope * (slope_stats.x1 if slope_stats.x1 is defined else 0)) }}
+              </div>
+              <div class="value-highlight text-xl font-bold bg-purple-400 bg-opacity-30">
+                b = {{ "%.4f"|format(slope_stats.intercept if slope_stats.intercept is defined else (slope_stats.y1 - slope_stats.slope * slope_stats.x1)) }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final Equation -->
+        <div class="calc-step">
+          <div class="flex items-center mb-4">
+            <div class="calc-number mr-4">4</div>
+            <h3 class="text-xl font-bold">Complete Linear Equation</h3>
+          </div>
+          
+          <div class="text-center">
+            <div class="text-3xl font-mono font-bold mb-4 bg-white bg-opacity-20 rounded-lg p-4">
+              y = {{ "%.4f"|format(slope_stats.slope) }}x + {{ "%.4f"|format(slope_stats.intercept if slope_stats.intercept is defined else (slope_stats.y1 - slope_stats.slope * slope_stats.x1)) }}
+            </div>
+            <div class="grid md:grid-cols-2 gap-4 mt-6">
+              <div class="text-center">
+                <h4 class="font-semibold text-yellow-300 mb-2">🎯 Slope Interpretation</h4>
+                <p class="text-sm opacity-90">
+                  For every 1 unit increase in X, Y {% if slope_stats.slope > 0 %}increases{% else %}decreases{% endif %} by {{ "%.4f"|format(abs(slope_stats.slope)) }} units
+                </p>
+              </div>
+              <div class="text-center">
+                <h4 class="font-semibold text-cyan-300 mb-2">📍 Y-Intercept Meaning</h4>
+                <p class="text-sm opacity-90">
+                  When X = 0, Y = {{ "%.4f"|format(slope_stats.intercept if slope_stats.intercept is defined else (slope_stats.y1 - slope_stats.slope * slope_stats.x1)) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verification -->
+        <div class="mt-6 text-center">
+          <div class="inline-flex items-center px-6 py-3 bg-white bg-opacity-20 rounded-full">
+            <span class="text-2xl mr-2">✅</span>
+            <span class="font-semibold">Calculation Complete - Use these values for your analysis!</span>
+          </div>
+        </div>
       </div>
     </div>
 
